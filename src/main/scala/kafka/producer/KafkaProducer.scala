@@ -8,7 +8,7 @@ import scala.collection.JavaConverters._
 
 import jp.co.tis.stc.example.IStreamProducer
 
-class TweetStreamProducer() extends IStreamProducer {
+class KafkaProducer() extends IStreamProducer {
   private val prop = new java.util.Properties()
   prop.load(this.getClass.getClassLoader.getResourceAsStream("kafka.properties"))
   private val conf = prop.asScala
