@@ -1,6 +1,7 @@
 package jp.co.tis.stc.example
 
 import jp.co.tis.stc.example.kafka.producer.KafkaProducer
+import jp.co.tis.stc.example.aws.producer.KinesisProducer
 
 trait IStreamProducer {
   def send(message:String):Unit
@@ -14,6 +15,7 @@ object StreamProducerFactory {
       }
     }
     case "KAFKA" => new KafkaProducer()
+    case "KINESIS" => new KinesisProducer()
     case _ => throw new RuntimeException
   }
 }

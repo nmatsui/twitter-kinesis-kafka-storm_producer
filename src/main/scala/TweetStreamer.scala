@@ -33,7 +33,7 @@ object TweetStreamer {
         def onScrubGeo(userId:Long, upToStatusId:Long) = println("onScrubGeo")
         def onStallWarning(warning:StallWarning) = println("onStallWarning")
         def onTrackLimitationNotice(num:Int) = println("onTrackLimitationNotice")
-        def onException(ex:java.lang.Exception) = println("onException")
+        def onException(ex:java.lang.Exception) = println("onException:%s".format(ex.toString))
         def onStatus(status:Status) = {
           func(status.getText)
         }
