@@ -1,0 +1,9 @@
+oauth.consumerKey=
+oauth.consumerSecret=
+oauth.accessToken=
+oauth.accessTokenSecret=
+
+http.proxyHost=
+http.proxyPort=
+http.proxyUser=
+http.proxyPassword=
