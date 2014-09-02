@@ -7,20 +7,21 @@ import jp.co.tis.stc.example.kafka.producer._
 
 object TweetStreamer {
   def main(args:Array[String]) {
-    val producer = new TweetStreamProducer(args(0), args(1))
+    //val producer = new TweetStreamProducer(args(0), args(1))
+    val producer = StreamProducerFactory.getInstance(args(0))
     val twitterWrapper = new TwitterWrapper(tweet => {
       println(tweet)
       producer.send(tweet)
     })
-    twitterWrapper.start(Array(args(2)))
+    twitterWrapper.start(Array(args(1)))
   }
 
-  class TwitterWrapper(func:(String) => Unit) {
+  private class TwitterWrapper(func:(String) => Unit) {
     import twitter4j._
     import twitter4j.conf._
     import scala.collection.JavaConverters._
 
-    val twitterStream = init
+    private val twitterStream = init
 
     def start(filters:Array[String]) {
       twitterStream.filter((new FilterQuery).track(filters))

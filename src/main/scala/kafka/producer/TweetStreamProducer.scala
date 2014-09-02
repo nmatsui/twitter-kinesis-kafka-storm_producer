@@ -4,17 +4,23 @@ import kafka.javaapi.producer.Producer
 import kafka.producer.KeyedMessage
 import kafka.producer.ProducerConfig
 
-import java.util.Properties
+import scala.collection.JavaConverters._
 
-class TweetStreamProducer(brokers:String, topic:String) {
-  val props = new Properties()
-  props.put("metadata.broker.list", brokers)
+import jp.co.tis.stc.example.IStreamProducer
+
+class TweetStreamProducer() extends IStreamProducer {
+  private val prop = new java.util.Properties()
+  prop.load(this.getClass.getClassLoader.getResourceAsStream("kafka.properties"))
+  private val conf = prop.asScala
+
+  private val props = new java.util.Properties()
+  props.put("metadata.broker.list", conf("kafka.brokers"))
   props.put("request.required.acks", "-1")
   props.put("producer.type", "sync")
-  props.put("clinet.id", topic)
-  val producer = new Producer[AnyRef, AnyRef](new ProducerConfig(props))
+  props.put("clinet.id", conf("kafka.topic"))
+  private val producer = new Producer[AnyRef, AnyRef](new ProducerConfig(props))
 
   def send(message:String):Unit = {
-    producer.send(new KeyedMessage[AnyRef, AnyRef](topic, message.getBytes("UTF-8")))
+    producer.send(new KeyedMessage[AnyRef, AnyRef](conf("kafka.topic"), message.getBytes("UTF-8")))
   }
 }
