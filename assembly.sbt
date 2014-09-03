@@ -2,7 +2,7 @@ import AssemblyKeys._
 
 assemblySettings
 
-jarName in assembly := "wordcounter.jar"
+jarName in assembly := "tweetstreamer.jar"
 
 mergeStrategy in assembly <<= (mergeStrategy in assembly) { mergeStrategy => {
   case entry => {
