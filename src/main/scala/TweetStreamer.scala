@@ -5,15 +5,14 @@ import twitter4j.conf._
 
 import jp.co.tis.stc.example.kafka.producer._
 
-object TweetStreamer {
+object TweetStreamer extends LogHelper {
   def main(args:Array[String]) {
-    //val producer = new TweetStreamProducer(args(0), args(1))
     val producer = StreamProducerFactory.getInstance(args(0))
     val twitterWrapper = new TwitterWrapper(tweet => {
-      println(tweet)
+      logger.info(tweet)
       producer.send(tweet)
     })
-    twitterWrapper.start(Array(args(1)))
+    twitterWrapper.start(Array("こんにちは","ありがとう"))
   }
 
   private class TwitterWrapper(func:(String) => Unit) {
@@ -60,3 +59,6 @@ object TweetStreamer {
   }
 }
 
+trait LogHelper {
+  lazy val logger = org.apache.log4j.Logger.getLogger(this.getClass.getName)
+}
