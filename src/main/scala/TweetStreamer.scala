@@ -12,7 +12,7 @@ object TweetStreamer extends LogHelper {
       logger.info(tweet)
       producer.send(tweet)
     })
-    twitterWrapper.start(Array("こんにちは","ありがとう"))
+    twitterWrapper.start(Array("storm", "kafka", "kinesis"))
   }
 
   private class TwitterWrapper(func:(String) => Unit) {
