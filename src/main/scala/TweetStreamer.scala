@@ -7,12 +7,17 @@ import jp.co.tis.stc.example.kafka.producer._
 
 object TweetStreamer extends LogHelper {
   def main(args:Array[String]) {
-    val producer = StreamProducerFactory.getInstance(args(0))
+    if (args.length < 2) {
+      println("Usage: java -jar tweetstreamer.jar (TEST|KAFKA|KINESIS) query_words...")
+      sys.exit(1)
+    }
+    val producer = StreamProducerFactory.getInstance(args.head)
     val twitterWrapper = new TwitterWrapper(tweet => {
       logger.info(tweet)
       producer.send(tweet)
     })
-    twitterWrapper.start(Array("storm", "kafka", "kinesis"))
+    logger.info("QueryWords => %s".format(args.tail.mkString(" "))) 
+    twitterWrapper.start(args.tail)
   }
 
   private class TwitterWrapper(func:(String) => Unit) {
