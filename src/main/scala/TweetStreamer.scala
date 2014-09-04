@@ -47,10 +47,10 @@ object TweetStreamer extends LogHelper {
       cb.setOAuthConsumerSecret(conf("oauth.consumerSecret"))
       cb.setOAuthAccessToken(conf("oauth.accessToken"))
       cb.setOAuthAccessTokenSecret(conf("oauth.accessTokenSecret"))
-      conf.get("http.proxyHost").map(k=>cb.setHttpProxyHost(k))
-      conf.get("http.proxyPort").map(k=>cb.setHttpProxyPort(k.toInt))
-      conf.get("http.proxyUser").map(k=>cb.setHttpProxyUser(k))
-      conf.get("http.proxyPassword").map(k=>cb.setHttpProxyPassword(k))
+      conf.get("http.proxyHost").filter(_.nonEmpty).map(v=>cb.setHttpProxyHost(v))
+      conf.get("http.proxyPort").filter(_.nonEmpty).map(v=>cb.setHttpProxyPort(v.toInt))
+      conf.get("http.proxyUser").filter(_.nonEmpty).map(v=>cb.setHttpProxyUser(v))
+      conf.get("http.proxyPassword").filter(_.nonEmpty).map(v=>cb.setHttpProxyPassword(v))
       
       val twitterStream = new TwitterStreamFactory(cb.build).getInstance
       twitterStream.addListener(listener)
