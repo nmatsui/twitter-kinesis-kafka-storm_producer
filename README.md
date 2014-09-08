@@ -1,12 +1,13 @@
 twitter-kinesis-kafka-storm_producer
 ====
 
-"Twitter Stream -> **Producer** -> (AWS Kinesis | Apache Kafka) -> Apache Storm[**WordCounter**] -> Redis" example.  
-This is the "Producer" part.
+"Twitter Stream -> **Producer** -> (AWS Kinesis | Apache Kafka) -> Apache Storm[**WordCounter**] -> Redis" example.
+
+This is the "**Producer**" part.
 
 ## Description
 
-This project is an example programs which send tweets continuously from "Twitter Stream API" to "Apache Kafka or AWS Kinesis".
+This is an example program which sends tweets continuously from "Twitter Stream API" to "Apache Kafka" or "AWS Kinesis".
 
 ## Related Project
 
@@ -17,8 +18,10 @@ This project is an example programs which send tweets continuously from "Twitter
 
 ## Requirements
 
-This example is written in scala 2.10. and depends on Apache Kafka 0.8.1.1 and Amazon Kinesis Client 1.1.0.  
+This program is written in scala 2.10.  
 You have to install java 1.6 or lator and sbt 0.13.x to build this project.
+
+This program depends on "Apache Kafka 0.8.1.1", "Amazon Kinesis Client 1.1.0" and "Twitter4J 4.0.2". 
 
 ## Prepare
 
@@ -30,10 +33,14 @@ You have to install java 1.6 or lator and sbt 0.13.x to build this project.
 
 you can use [Berksfile and Vagrantfile](https://github.com/nmatsui/twitter-kinesis-kafka-storm_vagrant) to construct this environments on VirtualBox. See [this Project](https://github.com/nmatsui/twitter-kinesis-kafka-storm_vagrant).
 
-### Create the AWS Kinesis Stream
+### Create AWS Kinesis Stream
 
-1. Create AWS Kinesis Stream.
+1. Create AWS Kinesis Stream called "tweets".
  - This program can use US EAST(N.Virginia) only.
+
+### Create Apache Kafka Topic
+
+1. Create Apache Kafka Topic called "tweets".
 
 ## Install
 
