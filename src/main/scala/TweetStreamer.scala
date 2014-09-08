@@ -3,9 +3,9 @@ package jp.co.tis.stc.example
 import twitter4j._
 import twitter4j.conf._
 
-import jp.co.tis.stc.example.kafka.producer._
+import jp.co.tis.stc.example.util.PropertyLoader
 
-object TweetStreamer extends LogHelper {
+object TweetStreamer extends LogHelper with PropertyLoader {
   def main(args:Array[String]) {
     if (args.length < 2) {
       println("Usage: java -jar tweetstreamer.jar (TEST|KAFKA|KINESIS) query_words...")
@@ -43,19 +43,17 @@ object TweetStreamer extends LogHelper {
         }
       }
 
-      val prop = new java.util.Properties()
-      prop.load(this.getClass.getClassLoader.getResourceAsStream("twitter.properties"))
-      val conf = prop.asScala
+      val twitterConf = loadProperties("twitter.properties")
       
       val cb = new ConfigurationBuilder()
-      cb.setOAuthConsumerKey(conf("oauth.consumerKey"))
-      cb.setOAuthConsumerSecret(conf("oauth.consumerSecret"))
-      cb.setOAuthAccessToken(conf("oauth.accessToken"))
-      cb.setOAuthAccessTokenSecret(conf("oauth.accessTokenSecret"))
-      conf.get("http.proxyHost").filter(_.nonEmpty).map(v=>cb.setHttpProxyHost(v))
-      conf.get("http.proxyPort").filter(_.nonEmpty).map(v=>cb.setHttpProxyPort(v.toInt))
-      conf.get("http.proxyUser").filter(_.nonEmpty).map(v=>cb.setHttpProxyUser(v))
-      conf.get("http.proxyPassword").filter(_.nonEmpty).map(v=>cb.setHttpProxyPassword(v))
+      cb.setOAuthConsumerKey(twitterConf("oauth.consumerKey"))
+      cb.setOAuthConsumerSecret(twitterConf("oauth.consumerSecret"))
+      cb.setOAuthAccessToken(twitterConf("oauth.accessToken"))
+      cb.setOAuthAccessTokenSecret(twitterConf("oauth.accessTokenSecret"))
+      twitterConf.get("http.proxyHost").filter(_.nonEmpty).map(v=>cb.setHttpProxyHost(v))
+      twitterConf.get("http.proxyPort").filter(_.nonEmpty).map(v=>cb.setHttpProxyPort(v.toInt))
+      twitterConf.get("http.proxyUser").filter(_.nonEmpty).map(v=>cb.setHttpProxyUser(v))
+      twitterConf.get("http.proxyPassword").filter(_.nonEmpty).map(v=>cb.setHttpProxyPassword(v))
       
       val twitterStream = new TwitterStreamFactory(cb.build).getInstance
       twitterStream.addListener(listener)
